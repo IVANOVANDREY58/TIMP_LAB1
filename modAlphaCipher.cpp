@@ -1,16 +1,12 @@
 #include "modAlphaCipher.h"
-modAlphaCipher::modAlphaCipher(const string& skey)
+modAlphaCipher::modAlphaCipher(const wstring& skey)
 {
-    locale loc("ru_RU.UTF-8"); // русская локаль для корректной смены регистра
-    wstring_convert<codecvt_utf8<wchar_t>, wchar_t> codec; //кодек UTF-8
-    wstring ws = codec.from_bytes(numAlpha); // перекодирование
-    for (unsigned i=0; i<ws.size(); i++) {
-        alphaNum[ws[i]]=i;
+    for (unsigned i=0; i<numAlpha.size(); i++) {
+        alphaNum[numAlpha[i]]=i;
     }
     key = convert(skey);
 }
-
-string modAlphaCipher::encrypt(const string& open_text)
+wstring modAlphaCipher::encrypt(const wstring& open_text)
 {
     vector<int> work = convert(open_text);
     for(unsigned i=0; i < work.size(); i++) {
@@ -18,8 +14,7 @@ string modAlphaCipher::encrypt(const string& open_text)
     }
     return convert(work);
 }
-
-string modAlphaCipher::decrypt(const string& cipher_text)
+wstring modAlphaCipher::decrypt(const wstring& cipher_text)
 {
     vector<int> work = convert(cipher_text);
     for(unsigned i=0; i < work.size(); i++) {
@@ -27,29 +22,19 @@ string modAlphaCipher::decrypt(const string& cipher_text)
     }
     return convert(work);
 }
-
-inline vector<int> modAlphaCipher::convert(const string& s)
+inline vector<int> modAlphaCipher::convert(const wstring& s)
 {
     vector<int> result;
-    locale loc("ru_RU.UTF-8"); // русская локаль для корректной смены регистра
-    wstring_convert<codecvt_utf8<wchar_t>, wchar_t> codec; //кодек UTF-8
-    wstring ws = codec.from_bytes(s); // перекодирование
-    for (unsigned i=0; i<ws.size(); i++) {
-        result.push_back(alphaNum[ws[i]]);
+    for(auto c:s) {
+        result.push_back(alphaNum[c]);
     }
     return result;
 }
-
-inline string modAlphaCipher::convert(const vector<int>& v)
+inline wstring modAlphaCipher::convert(const vector<int>& v)
 {
-    string result;
-    locale loc("ru_RU.UTF-8"); // русская локаль для корректной смены регистра
-    wstring_convert<codecvt_utf8<wchar_t>, wchar_t> codec; //кодек UTF-8
-    wstring ws = codec.from_bytes(numAlpha);
-    wstring result_s = codec.from_bytes("");
-    for (unsigned i=0; i<v.size(); i++) {
-        result_s.push_back(ws[v[i]]);
+    wstring result;
+    for(auto i:v) {
+        result.push_back(numAlpha[i]);
     }
-    result = codec.to_bytes(result_s);
     return result;
 }
