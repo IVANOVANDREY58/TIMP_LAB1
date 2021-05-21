@@ -1,25 +1,20 @@
 #pragma once
-#include <iostream>
-#include <cstring>
-#include <cctype>
-#include <string>
-#include <locale>
-#include <codecvt>
 #include <vector>
+#include <string>
 #include <map>
+#include <locale>
 using namespace std;
 class modAlphaCipher
 {
 private:
-    string numAlpha =
-        "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"; //алфавит русский
-    map <char,int> alphaNum; //ассоциативный массив "номер по символу"
-    vector <int> key; //ключ
-    vector<int> convert(const string& s); //преобразование строка-вектор
-    string convert(const vector<int>& v); //преобразование вектор-строка
+    wstring numAlpha =L"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"; 
+    map <char,int> alphaNum;
+    vector <int> key; 
+    vector<int> convert(const wstring& s); 
+    wstring convert(const vector<int>& v); 
 public:
-    modAlphaCipher()=delete; //запрещен конструктор без параметров
-    modAlphaCipher(const string& skey); //конструктор для установки ключа
-    string encrypt(const string& open_text); //зашифрование
-    string decrypt(const string& cipher_text);//расшифрование
+    modAlphaCipher()=delete; 
+    modAlphaCipher(const wstring& skey); 
+    wstring encrypt(const wstring& open_text); 
+    wstring decrypt(const wstring& cipher_text);
 };
